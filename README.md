@@ -1,8 +1,10 @@
 # ExUnit Sonarqube
 
-Show desktop notifications for ExUnit runs. Works very well with automatic test runners such as [mix-test.watch](https://github.com/lpil/mix-test.watch). (Yes, TDD is awesome!)
+Generate a generic test execution file to be used with SonarQube
 
-Currently notifications on OS X and Linux are supported.
+```
+GENERIC_EXECUTION_BASE_FOLDER="base/folder" mix test
+```
 
 ## Installation
 
