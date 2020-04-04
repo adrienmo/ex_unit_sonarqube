@@ -16,7 +16,7 @@ defmodule ExUnitSonarqube do
         acc
       ) do
     test = %{
-      name: "#{module} | #{name}",
+      name: String.replace("#{module} | #{name}", ["<", ">"], ""),
       duration: time,
       message: "",
       state: parse_state(state)
