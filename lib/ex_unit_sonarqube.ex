@@ -22,7 +22,8 @@ defmodule ExUnitSonarqube do
       state: parse_state(state)
     }
 
-    file = Path.relative_to_cwd(file)
+    base_dir = System.get_env("GENERIC_EXECUTION_BASE_FOLDER", "/")
+    file = Path.relative_to(file, base_dir)
     acc = Map.update(acc, file, [test], &[test | &1])
     {:noreply, acc}
   end
@@ -46,15 +47,21 @@ defmodule ExUnitSonarqube do
   defp parse_state({state, _}), do: IO.inspect(state)
 
   defp format(acc) do
-    base_dir = System.get_env("GENERIC_EXECUTION_BASE_FOLDER", "")
-
     "<testExecutions version=\"1\">" <>
       Enum.map_join(acc, fn {path, tests} ->
-        path = String.replace("#{base_dir}/#{path}", ~r/(\/)+/, "/", global: true)
+        path = String.replace("#{path}", ~r/(\/)+/, "/", global: true)
 
         "<file path=\"#{path}\">" <>
-          Enum.map_join(tests, fn %{duration: duration, name: name} ->
-            "<testCase name=\"#{name}\" duration=\"#{duration}\"></testCase>"
+          Enum.map_join(tests, fn %{duration: duration, name: name, state: state} ->
+            duration = div(duration, 1000)
+            message = case state do
+              :passed -> ""
+              :skipped ->
+                "<skipped message=\"skipped\"></skipped>"
+              :failed ->
+                "<failure message=\"failure\"></failure>"
+            end
+            "<testCase name=\"#{name}\" duration=\"#{duration}\">#{message}</testCase>"
           end) <>
           "</file>"
       end) <> "</testExecutions>"
