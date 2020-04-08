@@ -60,6 +60,7 @@ defmodule ExUnitSonarqube do
                 "<skipped message=\"skipped\"></skipped>"
               :failed ->
                 "<failure message=\"failure\"></failure>"
+              _ -> ""
             end
             "<testCase name=\"#{name}\" duration=\"#{duration}\">#{message}</testCase>"
           end) <>
