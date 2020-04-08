@@ -4,7 +4,7 @@ defmodule ExUnitSonarqube.Mixfile do
   def project do
     [
       app: :ex_unit_sonarqube,
-      version: "0.1.1",
+      version: "0.1.2",
       name: "ExUnitSonarqube",
       description: "Generate a generic test execution file for SonarQube",
       source_url: "https://github.com/adrienmo/ex_unit_sonarqube",
