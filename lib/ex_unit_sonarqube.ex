@@ -45,7 +45,7 @@ defmodule ExUnitSonarqube do
   defp parse_state({:failed, _}), do: :failed
   defp parse_state({:skipped, _}), do: :skipped
   defp parse_state({:excluded, _}), do: :skipped
-  defp parse_state({state, _}), do: :passed
+  defp parse_state({_state, _}), do: :passed
 
   defp format(acc) do
     "<testExecutions version=\"1\">" <>
