@@ -28,7 +28,9 @@ defmodule ExUnitSonarqube do
     {:noreply, acc}
   end
 
-  def handle_cast({:suite_finished, _, _}, acc) do
+  def handle_cast({:suite_finished, a, _}, acc), do: handle_cast({:suite_finished, a}, acc)
+
+  def handle_cast({:suite_finished, _}, acc) do
     :ok = acc |> format() |> save_to_file()
     {:noreply, acc}
   end
